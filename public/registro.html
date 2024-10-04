@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="diseño.css">
+</head>
+<body>
+    <div class="background">
+        <div class="register-box">
+            <h2>Registrarse</h2>
+            <form id="registerForm">
+                <div class="textbox">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" id="confirm_password" placeholder="Confirmar Contraseña" required>
+                </div>
+                <button type="submit">Registrarse</button>
+                <p class="login-link">¿Ya tienes una cuenta? <a href="index.html">Iniciar Sesión</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Evita el envío del formulario por defecto
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/usuarios/registro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+                alert(data.message); // Muestra el mensaje de respuesta
+
+                if (response.status === 201) {
+                    // Redirigir a otra página o realizar alguna acción después del registro exitoso
+                    window.location.href = 'index.html'; // Cambia esto a la página que desees
+                }
+            } catch (error) {
+                console.error('Error al registrarse:', error);
+                alert('Error al registrarse');
+            }
+        });
+    </script>
+</body>
+</html>

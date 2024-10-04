@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="diseño.css">
+</head>
+<body>
+    <div class="background">
+        <div class="login-box">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <div class="textbox">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+                <button type="submit">Entrar</button>
+                <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                <p class="login-link">¿No tienes una cuenta? <a href="registro.html">Registrarse</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Evita el envío del formulario por defecto
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/usuarios/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+                alert(data.message); // Muestra el mensaje de respuesta
+
+                if (response.status === 200) {
+                    // Redirigir a otra página o realizar alguna acción después del inicio de sesión exitoso
+                    window.location.href = 'dashboard.html'; // Cambia esto a la página que desees
+                }
+            } catch (error) {
+                console.error('Error al iniciar sesión:', error);
+                alert('Error al iniciar sesión');
+            }
+        });
+    </script>
+</body>
+</html>
+
