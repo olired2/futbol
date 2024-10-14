@@ -50,5 +50,32 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Error del servidor' });
     }
 });
+// Ruta para registrar árbitros
+router.post('/registro-arbitro', async (req, res) => {
+    const { name, age, experience, phone, email } = req.body;
+
+    try {
+        // Validaciones (puedes personalizarlas)
+        if (!name || !age || !experience || !phone || !email) {
+            return res.status(400).json({ message: 'Todos los campos son requeridos.' });
+        }
+
+        // Crea un nuevo árbitro
+        const newReferee = new Referee({
+            name,
+            age,
+            experience,
+            phone,
+            email
+        });
+
+        // Guarda el árbitro en la base de datos
+        await newReferee.save();
+        res.status(201).json({ message: 'Árbitro registrado exitosamente.' });
+    } catch (error) {
+        console.error('Error al registrar árbitro:', error);
+        res.status(500).json({ message: 'Error al registrar árbitro.' });
+    }
+});
 
 module.exports = router;

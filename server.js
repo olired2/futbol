@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const authRoutes = require('./routes/auth'); // Asegúrate de que esta ruta sea correcta
 const app = express();
 
@@ -16,12 +17,23 @@ mongoose.connect(mongoURI)
         console.error('Error al conectar a MongoDB Atlas:', error);
     });
 
+// Sirve archivos estáticos (como CSS)
+app.use(express.static(path.join(__dirname, 'public')));  // Asegúrate de que la carpeta 'public' contiene tus archivos CSS y otros recursos estáticos
+
 // Usar rutas de autenticación
 app.use('/api/usuarios', authRoutes);
 
-// Ruta de prueba
+// Rutas para servir las páginas HTML
 app.get('/', (req, res) => {
-    res.send('¡Conexión a MongoDB Atlas exitosa!');
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/registro', (req, res) => {
+    res.sendFile(path.join(__dirname, 'registro.html'));
+});
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
 // Iniciar el servidor

@@ -118,3 +118,17 @@ button {
     text-align: center; /* Alinear texto al centro */
     margin-top: 15px; /* Margen superior */
 }
+.google-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4285F4; /* Color azul de Google */
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+.google-button:hover {
+    background-color: #357AE8; /* Color más oscuro al pasar el mouse */
+}
